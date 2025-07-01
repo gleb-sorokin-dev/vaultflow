@@ -1,8 +1,38 @@
-import type { Variants } from "framer-motion";
+// utils/motion.ts
+import type { Variants, Transition } from "framer-motion";
 
 type Direction = "up" | "down" | "left" | "right";
 
-export const fadeIn = (direction: Direction, delay: number = 0): Variants => {
+interface FadeInOptions {
+  direction?: Direction;
+  type?: Transition["type"];
+  delay?: number;
+  duration?: number;
+  ease?: Transition["ease"];
+}
+
+export const staggerContainer = (
+  staggerChildren: number = 0.1,
+  delayChildren: number = 0.1
+): Variants => ({
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren,
+      delayChildren,
+    },
+  },
+});
+
+export const fadeIn = (options: FadeInOptions = {}): Variants => {
+  const {
+    direction = "up",
+    type = "spring",
+    delay = 0,
+    duration = 0.5,
+    ease = "easeOut",
+  } = options;
+
   return {
     hidden: {
       y: direction === "up" ? 40 : direction === "down" ? -40 : 0,
@@ -14,83 +44,37 @@ export const fadeIn = (direction: Direction, delay: number = 0): Variants => {
       x: 0,
       opacity: 1,
       transition: {
-        type: "spring",
-        duration: 1.25,
-        delay: delay,
-        ease: [0.25, 0.25, 0.25, 0.75],
-      },
-    },
-  };
-};
-
-export const staggerContainer = (
-  staggerChildren: number = 0,
-  delayChildren: number = 0
-): Variants => {
-  return {
-    hidden: {},
-    show: {
-      transition: {
-        staggerChildren: staggerChildren,
-        delayChildren: delayChildren,
-      },
-    },
-  };
-};
-
-export const slideIn = (
-  direction: Direction,
-  delay: number = 0,
-  duration: number = 0.5
-): Variants => {
-  return {
-    hidden: {
-      x: direction === "left" ? "-100%" : direction === "right" ? "100%" : 0,
-      y: direction === "up" ? "100%" : direction === "down" ? "-100%" : 0,
-    },
-    show: {
-      x: 0,
-      y: 0,
-      transition: {
+        type,
         delay,
         duration,
-        ease: "easeOut",
+        ease,
       },
     },
   };
 };
 
-export const textVariant = (delay: number = 0): Variants => {
+export const slideIn = (options: FadeInOptions = {}): Variants => {
+  const {
+    direction = "up",
+    type = "tween",
+    delay = 0,
+    duration = 0.7,
+    ease = "easeOut",
+  } = options;
+
   return {
     hidden: {
-      y: 50,
-      opacity: 0,
+      y: direction === "up" ? "100%" : direction === "down" ? "-100%" : 0,
+      x: direction === "left" ? "-100%" : direction === "right" ? "100%" : 0,
     },
     show: {
       y: 0,
-      opacity: 1,
+      x: 0,
       transition: {
-        type: "spring",
-        duration: 1.25,
+        type,
         delay,
-      },
-    },
-  };
-};
-
-export const scale = (delay: number = 0): Variants => {
-  return {
-    hidden: {
-      scale: 0,
-      opacity: 0,
-    },
-    show: {
-      scale: 1,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        duration: 1.25,
-        delay,
+        duration,
+        ease,
       },
     },
   };
