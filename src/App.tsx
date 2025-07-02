@@ -3,6 +3,9 @@ import { useScroll, useTransform, motion } from "framer-motion";
 import Header from "./components/Header/Header";
 import Hero from "./components/Hero/Hero";
 import Lenis from "@studio-freight/lenis";
+import TrustedBySection from "./components/TrustedBySection/TrustedBySection";
+import Features from "./components/Features/Features";
+import Footer from "./components/Footer/Footer";
 
 export default function App() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -46,6 +49,11 @@ export default function App() {
         <motion.div style={{ y }} className="mt-28 md:mt-36 lg:mt-44">
           <Hero />
         </motion.div>
+
+        <TrustedBySection />
+        <Features />
+        <Footer />
+
       </div>
     </div>
   );
